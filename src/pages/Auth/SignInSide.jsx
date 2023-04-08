@@ -41,7 +41,6 @@ const theme = createTheme();
 export default function SignInSide() {
   const dispatch = useDispatch();
   const { register, handleSubmit, formState } = useForm();
-  const { IsError, setIsError } = useState(null);
 
   const onSubmit = (data) => {
     dispatch(loginThunk(data))

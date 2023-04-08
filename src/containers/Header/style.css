@@ -1,9 +1,9 @@
-a {
+ button a {
     color: white;
     text-decoration: none;
 }
 
-a:hover {
+button a:hover {
     color: black;
     transition: all 0.5s;
 }

@@ -29,7 +29,6 @@ export const loginThunk = (data) => {
             toast.success('Access allowed');
            
         } catch (err) {
-            console.log();
             toast.error(err.response.data, )
             dispatch({ type: actionTypes.LOGOUT });
         } finally {
@@ -41,28 +40,6 @@ export const loginThunk = (data) => {
     }
 }
 
-
-// export const loginThunk = (data) => {
-//     return async dispatch => {
-//         try {
-//             const { access_token } = await api.login(data);
-//             dispatch({ type: actionTypes.LOGIN, payload: access_token });
-//             localStorage.setItem('token', access_token);
-//             dispatch(initThunk());
-//         } catch (err) {
-//             // dispatch({ type: actionTypes.LOGOUT });
-//             dispatch({
-//                 type: 'ERROR/SET',
-//                 payload: 'Помилка авторизації. Будь ласка, перевірте свої дані та спробуйте ще раз.',
-//             });
-//         } finally {
-//             dispatch({
-//                 type: 'LOADING/SET',
-//                 payload: false,
-//             });
-//         }
-//     }
-// }
 
 
 export const updateCurrentUserThunk = (data) => {

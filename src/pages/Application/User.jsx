@@ -17,6 +17,10 @@ import ListItem from '@mui/material/ListItem';
 import MasonryImageList from "../../components/MasonryImageList/MasonryImageList";
 import Page404 from "../../components/Page404/Page404";
 
+import { TextField } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import { toast } from 'react-toastify';
+
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -47,10 +51,12 @@ const UploadPost = ({
         api.createPost(body)
             .then(data => {
                 handleAddPost(data);
+                toast.success('The post was added successfully');
                 handleCloseForm();
             })
             .catch(err => {
-                alert(err.message);
+                toast.error(err.response.data,)
+                // alert(err.message);
             })
     }
 
@@ -61,14 +67,53 @@ const UploadPost = ({
     }
 
     return (
+        // <form onSubmit={handleSubmit}>
+        //     <br />
+        //     <button onClick={handleCloseForm} type="button">Cancel</button>
+        //     <Input name="title" label="Title" type="text" placeholder="Title..." />
+        //     <Input name="image" label="Photo" type="file" placeholder="Photo..." />
+        //     <button type="submit">Create post</button>
+        //     <br />
+        // </form>
         <form onSubmit={handleSubmit}>
-            <br />
-            <button onClick={handleCloseForm} type="button">Cancel</button>
-            <Input name="title" label="Title" type="text" placeholder="Title..." />
-            <Input name="image" label="Photo" type="file" placeholder="Photo..." />
-            <button type="submit">Create post</button>
-            <br />
-        </form>
+            <>
+                <br />
+                <Typography variant="h3" component="h3" sx={{ textAlign: 'center' }}>
+                    Add post:
+                </Typography>
+
+                <Box sx={{ display: 'flex !important', flexDirection: 'column' }}>
+
+                    <TextField
+                        margin="normal"
+                        fullWidth
+                        name="title"
+                        label="Title"
+                        variant="outlined"
+                        placeholder="Title..."
+                    />
+                    <TextField
+                        margin="normal"
+                        fullWidth
+                        name="image"
+                        type="file"
+                        variant="outlined"
+                        placeholder="Photo..."
+                        sx={{mb: '25px'}}
+                    />
+
+                    <Button onClick={handleCloseForm} variant="contained" type="button" color="error" >
+                        Cancel
+                    </Button>
+
+                    <Button type="submit" variant="contained" sx={{ mt: 2 }} color="success">
+                        Create post
+                    </Button>
+
+                </Box>
+                <br />
+            </>
+        </form >
     )
 }
 
@@ -99,8 +144,8 @@ const User = (props) => {
 
     if (isLoading) return
 
-    const handleClick = () => {
-    };
+    // const handleClick = () => {
+    // };
 
 
 
@@ -117,13 +162,13 @@ const User = (props) => {
 
                 <NavLink to="/users">Users</NavLink> */}
 
-               
+
                 {
                     !user ?
-                    // <h1>User  not found</h1>
-                         <Page404/> :
+                        // <h1>User  not found</h1>
+                        <Page404 /> :
                         (
-                            <Box sx={{ width: '100%', mt: '35px'  }}>
+                            <Box sx={{ width: '100%', mt: '35px' }}>
                                 <Stack spacing={2}>
                                     <Item sx={{ display: 'flex', flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
 
@@ -138,13 +183,13 @@ const User = (props) => {
                                                 </ListItem>
 
                                                 <ListItem sx={{ display: 'block', alignItems: 'left' }}>
-                                                    <ListItemText primary={user.posts.length + ' ' + 'posts'}  sx={{ display: 'flex', alignItems: 'left' }} />
+                                                    <ListItemText primary={user.posts.length + ' ' + 'posts'} sx={{ display: 'flex', alignItems: 'left' }} />
                                                     <ListItemText primary={user.followersCount + ' ' + 'followers'} sx={{ display: 'flex', alignItems: 'left' }} />
                                                     <ListItemText primary={user.followingsCount + ' ' + 'followings'} sx={{ display: 'flex', alignItems: 'left' }} />
                                                 </ListItem>
                                             </Box>
                                             {/* {user._id} */}
-{/* 
+                                            {/* 
                                             {user.isFollow ?
                                                 <Button
 
@@ -161,27 +206,27 @@ const User = (props) => {
                                                     variant="outlined" color="error" sx={{ height: '50px', width: '100%' }}>
                                                     Follow
                                                 </Button>} */}
-                                                
-                                                
+
+
                                         </Box>
 
                                     </Item>
-                                                
+
 
 
                                 </Stack>
-                                {isPersonalPage && <UploadPost handleAddPost={handleAddPost} sx={{ height: '50px', width: '100%', mb: '35px' }}/>}                    
+                                {isPersonalPage && <UploadPost handleAddPost={handleAddPost} sx={{ height: '50px', width: '100%', mb: '35px' }} />}
 
 
 
-                
+
                                 {/* <p>Posts:</p>
                                 <div className="posts">
                                     {user.posts.map(post => <PostCard key={post._id} post={post} />)}
                                 </div> */}
-                                <MasonryImageList user={user}/>
+                                <MasonryImageList user={user} />
                             </Box>
-                           
+
                         )
                 }
             </Container>

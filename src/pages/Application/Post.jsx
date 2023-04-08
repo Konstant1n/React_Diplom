@@ -1,93 +1,32 @@
-// import React, { useEffect, useState } from "react";
-// import { useParams, useNavigate, NavLink } from 'react-router-dom';
-// import api from "../../services/api";
-// import CircularStatic from "../../components/CircularStatic/CircularStatic";
-// import { Container } from "@mui/material";
-// import Box from '@mui/material/Box';
-// import Divider from '@mui/material/Divider';
-// import Typography from '@mui/material/Typography';
-
-// const Post = () => {
-//     const { postId } = useParams();
-//     const navigate = useNavigate();
-//     const [post, setPost] = useState(post);
-//     const [isShowLikes, setIsShowLikes] = useState(false);
-//     console.log(post);
-//     useEffect(() => {
-//         api.getPostById(postId)
-//             .then(data => {
-//                 setPost(data);
-//             })
-//     }, [])
-
-//     const handleClickBack = () => navigate(-1);
-
-//     if (!post) {
-//         return (
-//             <>
-//                 <CircularStatic />
-//                 <h1>Post not found</h1>
-//             </>
-//         )
-//     }
-
-//     const [firstLikedUser = null, ...likes] = post.likes;
-
-//     return (
-//         <Container sx={{ display: 'flex', width: '700px', padding: '0!important' }}>
-//             {/* <button onClick={handleClickBack}>Back</button> */}
-//             <Box sx={{ width: '60%' }}>
-//                 <img
-//                     src={`${post.imgUrl}`}
-//                     alt={post.title}
-//                     loading="lazy"
-//                     width={'100%'}
-//                 />
-//             </Box>
-//             <Box sx={{ width: '40%', display: 'flex', justifyContent: 'center', paddingTop: '15px'}}>
-//                 <Typography gutterBottom variant="h4" component="div">
-//                 {post.title}
-//                 </Typography>
-//                 <Divider />
-
-//                 {/* {!isShowLikes ? (
-//                     <p
-//                         onClick={() => setIsShowLikes(true)}
-//                     >
-//                         {
-//                             post.likes.length ? (
-//                                 <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
-//                             ) : (
-//                                 <p>No Likes</p>
-//                             )
-//                         }
-//                     </p>
-//                 ) : (
-//                     <ul>
-//                         <button onClick={() => setIsShowLikes(false)}>Hide</button>
-//                         {post.likes.map(like => <li key={like._id}><NavLink to={`/users/${like._id}`}>{like.login}</NavLink></li>)}
-//                     </ul>
-//                 )} */}
-
-//             </Box>
-
-//             {/* <img style={{maxWidth: 300,}} src={post.imgUrl} alt="post" /> */}
-
-//         </Container>
-//     )
-// }
-
-// export default Post;
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, NavLink } from 'react-router-dom';
 import api from "../../services/api";
+import { Container, Box, Button, Typography, List, ListItem, ListItemText } from '@mui/material';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { styled } from '@mui/material/styles';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { toast } from 'react-toastify';
+
+const StyledFavoriteIcon = styled(FavoriteIcon)({
+    fontSize: '3rem',
+    color: 'red',
+    padding: '0.2rem',
+});
+
+const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)({
+    fontSize: '3rem',
+    padding: '0.2rem',
+    color: 'red',
+});
+
+
 
 const Post = () => {
     const { postId } = useParams();
     const navigate = useNavigate();
     const [post, setPost] = useState(null);
     const [isShowLikes, setIsShowLikes] = useState(false);
+    const [toggleLike, setToggleLike] = useState(false);
 
     useEffect(() => {
         api.getPostById(postId)
@@ -98,47 +37,85 @@ const Post = () => {
 
     const handleClickBack = () => navigate(-1);
 
-    // if(!post) {
-    //     return (
-    //         setTimeout(() => alert('<h1>Post not found</h1'), 1000);
-                   
-        
-    //     )
-
-    // }
 
     if (!post) {
-        setTimeout(() => <h1>Post not found</h1>, 2000);
+        setTimeout(() => <h1>Post not found</h1>, 2000);    //Bug fix - crutch
         return null;
-      }
+    }
 
-    const [firstLikedUser=null, ...likes] = post.likes;
+    const [firstLikedUser = null, ...likes] = post.likes;
+
+    // return (
+    //     <div>
+    //         <button onClick={handleClickBack}>Back</button>
+    //         <h1>POST: {post.title}</h1>
+    //         <img style={{maxWidth: 300,}} src={post.imgUrl} alt="post" />
+    //         {!isShowLikes ? (
+    //             <p 
+    //                 onClick={() => setIsShowLikes(true)}
+    //             >
+    //                 {
+    //                     post.likes.length ? (
+    //                         <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
+    //                     ) : (
+    //                         <p>No Likes</p>
+    //                     )
+    //                 }
+    //             </p>
+    //         ) : (
+    //             <ul>
+    //                 <button onClick={() => setIsShowLikes(false)}>Hide</button>
+    //                 {post.likes.map(like => <li key={like.id}><NavLink to={`/users/${like._id}`}>{like.login}</NavLink></li>)}
+    //             </ul>
+    //         )}
+    //     </div>
+    // )
+    
+
+    const handleLike = () => {
+        setToggleLike(toggleLike == true ? toggleLike == true : toggleLike == false);
+        api.handleLike(post)
+            .then(data => {
+                toast.success('Liked');
+
+            })
+            .catch(err => {
+                toast.error(err.response.data,)
+            })
+        
+    }
 
     return (
-        <div>
-            <button onClick={handleClickBack}>Back</button>
-            <h1>POST: {post.title}</h1>
-            <img style={{maxWidth: 300,}} src={post.imgUrl} alt="post" />
+        <Container>
+            <Button onClick={handleClickBack} variant="contained" color="primary">Back</Button>
+            <Typography variant="h2" component="h3" sx={{ textAlign: 'center' }}>{post.title}</Typography>
+            <Box>
+                <img style={{ width: '100%' }} src={post.imgUrl} alt="post" />
+            </Box>
+            <StyledFavoriteBorderIcon onClick={handleLike} />
+            {/* <StyledFavoriteIcon /> */}
             {!isShowLikes ? (
-                <p 
-                    onClick={() => setIsShowLikes(true)}
-                >
-                    {
-                        post.likes.length ? (
-                            <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
-                        ) : (
-                            <p>No Likes</p>
-                        )
-                    }
-                </p>
+                <Typography onClick={() => setIsShowLikes(true)} component="p">
+                    {post.likes.length ? (
+                        <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
+                    ) : (
+                        <p>No Likes</p>
+                    )}
+                </Typography>
             ) : (
-                <ul>
-                    <button onClick={() => setIsShowLikes(false)}>Hide</button>
-                    {post.likes.map(like => <li key={like.id}><NavLink to={`/users/${like._id}`}>{like.login}</NavLink></li>)}
-                </ul>
+                <div>
+                    <Button onClick={() => setIsShowLikes(false)} variant="contained" color="primary">Hide</Button>
+                    <List>
+                        {post.likes.map((like) => (
+                            <ListItem key={like.id} button component={NavLink} to={`/users/${like._id}`}>
+                                <ListItemText primary={like.login} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </div>
             )}
-        </div>
-    )
+        </Container>
+    );
 }
 
 export default Post;

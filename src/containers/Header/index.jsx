@@ -34,7 +34,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import './style.css';
-const pages = [<NavLink to="/">Feed</NavLink>, <NavLink to="/users">Users</NavLink>, <NavLink to="/profile">Profile</NavLink>];
+const pages = [<NavLink to="/" key='feed'>Feed</NavLink>, <NavLink to="/users" key='users'>Users</NavLink>, <NavLink to="/profile"key='profile'>Profile</NavLink>];
 
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
