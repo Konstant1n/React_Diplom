@@ -8,21 +8,51 @@ const uiReducer = (state = { isLoading: true, theme: 'dark' }, action) => {
             return {
                 ...state,
                 isLoading: action.payload
-            } 
+            }
         case 'THEME/TOGGLE':
             return {
                 ...state,
                 theme: state.theme === 'light' ? 'dark' : 'light',
-            }       
-        default: 
+            }
+        default:
             return state;
     }
 }
-const initialUserState = { 
-    isAuth: false, 
-    token: localStorage.getItem('token'), 
-    user: null 
+const initialUserState = {
+    isAuth: false,
+    token: localStorage.getItem('token'),
+    user: null
 };
+
+// const userReducer = (state = initialUserState, action) => {
+//     switch (action.type) {
+//         case 'LOGIN':
+//             return {
+//                 ...state,
+//                 isAuth: true,
+//                 token: action.payload,
+//             }
+//         case 'LOGOUT':
+//             return {
+//                 ...state,
+//                 isAuth: false,
+//             }
+//         case 'CURRENT_USER_SET':
+//             return {
+//                 ...state,
+//                 isAuth: true,
+//                 user: action.payload,
+//             }
+//         case 'CURRENT_USER_UPDATE':
+//             return {
+//                 ...state,
+//                 isAuth: true,
+//                 user: action.payload,
+//             }
+//         default:
+//             return state;
+//     }
+// }
 
 const userReducer = (state = initialUserState, action) => {
     switch (action.type) {
@@ -31,12 +61,12 @@ const userReducer = (state = initialUserState, action) => {
                 ...state,
                 isAuth: true,
                 token: action.payload,
-            }   
+            }
         case 'LOGOUT':
             return {
                 ...state,
                 isAuth: false,
-            }  
+            }
         case 'CURRENT_USER_SET':
             return {
                 ...state,
@@ -48,8 +78,13 @@ const userReducer = (state = initialUserState, action) => {
                 ...state,
                 isAuth: true,
                 user: action.payload,
-            }                   
-        default: 
+            }
+        case 'ERROR/SET':
+            return {
+                ...state,
+                error: action.payload,
+            }
+        default:
             return state;
     }
 }

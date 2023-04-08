@@ -40,7 +40,7 @@ const lastNameValidation = {
 const loginValidation = {
     required: {
         value: true,
-        message: 'Email field is required!'
+        message: 'Login field is required!'
     },
     pattern: {
         value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
@@ -84,10 +84,18 @@ const Profile = () => {
     }
 
 
-    console.log(user);
     return (
 
-        <Container style={{ display: 'flex', justifyContent: 'center', marginTop: '50px', gap: '25px' }}>
+        <Container style={{
+            display: 'flex', justifyContent: 'center', marginTop: '50px', gap: '25px'
+        }}
+            sx={{
+                '@media (max-width: 400px)': {
+                    flexDirection: 'column',
+                    flexWrap: 'wrap',
+                },
+            }}
+        >
 
             <Box>
                 <label>
@@ -105,7 +113,7 @@ const Profile = () => {
                         {...register('firstName', firstNameValidation)}
                         error={formState.errors.firstName}
                         helperText={formState.errors.firstName ? formState.errors.firstName.message : ''}
-                        sx={{ display: 'block' }}
+                        sx={{ display: 'block', width: '100%' }}
                     />
 
 
@@ -143,6 +151,14 @@ const Profile = () => {
                 </Box>
 
             </form>
+            <style jsx>{`
+        .MuiOutlinedInput-root {
+          width: 100%;
+        }
+        form {
+            width: 270px;
+        }
+      `}</style>
         </Container>
     )
 }

@@ -12,3 +12,7 @@ ul a {
      color: black;
      text-decoration: none;
 }
+
+.MuiGrid-root a {
+    color: -webkit-link;
+}

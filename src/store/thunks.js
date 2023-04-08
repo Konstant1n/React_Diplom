@@ -6,9 +6,9 @@ export const initThunk = () => {
     return async dispatch => {
         try {
             const currentUser = await api.currentUser();
-            dispatch({type: 'CURRENT_USER_SET', payload: currentUser});
-        } catch(err) {
-            dispatch({type: actionTypes.LOGOUT});
+            dispatch({ type: 'CURRENT_USER_SET', payload: currentUser });
+        } catch (err) {
+            dispatch({ type: actionTypes.LOGOUT });
         } finally {
             dispatch({
                 type: 'LOADING/SET',
@@ -21,12 +21,17 @@ export const initThunk = () => {
 export const loginThunk = (data) => {
     return async dispatch => {
         try {
+            
             const { access_token } = await api.login(data);
-            dispatch({type: actionTypes.LOGIN, payload: access_token});
+            dispatch({ type: actionTypes.LOGIN, payload: access_token });
             localStorage.setItem('token', access_token);
             dispatch(initThunk());
-        } catch(err) {
-            dispatch({type: actionTypes.LOGOUT});
+            toast.success('Access allowed');
+           
+        } catch (err) {
+            console.log();
+            toast.error(err.response.data, )
+            dispatch({ type: actionTypes.LOGOUT });
         } finally {
             dispatch({
                 type: 'LOADING/SET',
@@ -37,15 +42,38 @@ export const loginThunk = (data) => {
 }
 
 
+// export const loginThunk = (data) => {
+//     return async dispatch => {
+//         try {
+//             const { access_token } = await api.login(data);
+//             dispatch({ type: actionTypes.LOGIN, payload: access_token });
+//             localStorage.setItem('token', access_token);
+//             dispatch(initThunk());
+//         } catch (err) {
+//             // dispatch({ type: actionTypes.LOGOUT });
+//             dispatch({
+//                 type: 'ERROR/SET',
+//                 payload: 'Помилка авторизації. Будь ласка, перевірте свої дані та спробуйте ще раз.',
+//             });
+//         } finally {
+//             dispatch({
+//                 type: 'LOADING/SET',
+//                 payload: false,
+//             });
+//         }
+//     }
+// }
+
+
 export const updateCurrentUserThunk = (data) => {
     return async (dispatch, getState) => {
         try {
             const updatedUser = await api.updateCurrentUser(data);
-            dispatch({type: 'CURRENT_USER_UPDATE', payload: updatedUser})
-            toast.success('User has been updated!', {theme: getState().ui.theme})
-        } catch(err) {
+            dispatch({ type: 'CURRENT_USER_UPDATE', payload: updatedUser })
+            toast.success('User has been updated!', { theme: getState().ui.theme })
+        } catch (err) {
             const { data } = err.response;
-            toast.error(data, {theme: getState().ui.theme})
+            toast.error(data, { theme: getState().ui.theme })
         }
     }
 }

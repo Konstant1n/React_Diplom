@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,15 +15,12 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loginThunk } from '../../store/thunks';
 
-// import clsx from 'clsx';
-// import Input from '@mui/material/Input';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import IconButton from '@mui/material/IconButton';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import FormControl from '@mui/material/FormControl';
-// import InputLabel from '@mui/material/InputLabel';
-// import { makeStyles } from '@mui/material/styles';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
+import { useForm } from "react-hook-form";
 
 function Copyright(props) {
   return (
@@ -43,58 +40,36 @@ const theme = createTheme();
 
 export default function SignInSide() {
   const dispatch = useDispatch();
-  const [form, setForm] = useState({ login: '', password: '' });
-  const [errors, setErrors] = useState({
-    login: null,
-    errPassword: null,
-  });
+  const { register, handleSubmit, formState } = useForm();
+  const { IsError, setIsError } = useState(null);
 
+  const onSubmit = (data) => {
+    dispatch(loginThunk(data))
+  };
 
-  // const [showPassword, setShowPassword] = useState(false);
-
-  // const [values, setValues] = React.useState({
-  //   amount: '',
-  //   password: '',
-  //   weight: '',
-  //   weightRange: '',
-  //   showPassword: false,
-  // });
-
-
-
-  useEffect(() => {
-    const errors = {};
-    if (form.login.length) {
-      errors.login = null;
-    } else {
-      errors.login = 'Login required!';
-    }
-
-    if (form.password.length) {
-      errors.password = null;
-    } else {
-      errors.password = 'Password required!';
-    }
-    setErrors(errors);
-  }, [form]);
-
-  const handleChange = (key, value) => {
-    setForm(prev => ({ ...prev, [key]: value }));
+  const loginValidation = {
+    required: {
+      value: true,
+      message: 'Login field is required!'
+    },
+    pattern: {
+      value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
+      message: 'Login consists of Latin letters, numbers and underscores'
+    },
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginThunk(form));
+  const passwordValidation = {
+    required: {
+      value: true,
+      message: 'password field is required!'
+    },
+    pattern: {
+      value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
+      message: 'Password consists of Latin letters, numbers and underscores'
+    },
   }
 
-
-  // const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  // const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   event.preventDefault();
-  // };
-
-
+  const [showPassword, setShowPassword] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -133,53 +108,38 @@ export default function SignInSide() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+            <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
-                required
+
                 fullWidth
-                id="email"
                 label="Login"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={(e) => handleChange('login', e.target.value)}
-                error={errors.login}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                onChange={(e) => handleChange('password', e.target.value)}
-                error={errors.password}
+                type="text"
+                placeholder='login'
+                {...register("login", loginValidation)}
+                error={formState.errors.login}
+                helperText={formState.errors.login ? formState.errors.login.message : ''}
               />
 
-{/* 
-              <FormControl className={clsx(classes.margin, classes.textField)}>
-                <InputLabel htmlFor="standard-adornment-password">Password</InputLabel>
-                <Input
-                  id="standard-adornment-password"
-                  type={values.showPassword ? 'text' : 'password'}
-                  onChange={(e) => handleChange('password', e.target.value)}
-                  endAdornment={
+              <TextField
+                label="Password"
+                type={showPassword ? 'text' : 'password'}
+                required
+                fullWidth
+                placeholder='password'
+                {...register("password", passwordValidation)}
+                error={formState.errors.password}
+                helperText={formState.errors.password ? formState.errors.password.message : ''}
+                InputProps={{
+                  endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                      >
-                        {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                      <IconButton onClick={() => setShowPassword(!showPassword)}>
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
-                  }
-                />
-              </FormControl> */}
-
+                  ),
+                }}
+              />
               <Button
                 type="submit"
                 fullWidth
@@ -206,3 +166,5 @@ export default function SignInSide() {
     </ThemeProvider>
   );
 }
+
+
