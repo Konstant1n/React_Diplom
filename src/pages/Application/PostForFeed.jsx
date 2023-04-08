@@ -21,59 +21,34 @@ const StyledFavoriteBorderIcon = styled(FavoriteBorderIcon)({
 
 
 
-const Post = (feedPost) => {
-    const { postId } = useParams();
+const PostForFeed = (item) => {
+    // const { postId } = useParams();
     const navigate = useNavigate();
-    const [post, setPost] = useState(null);
+    const [post, setPost] = useState(item.item);
     const [isShowLikes, setIsShowLikes] = useState(false);
     const [toggleLike, setToggleLike] = useState(false);
 
-    useEffect(() => {
-        api.getPostById(postId)
-            .then(data => {
-                setPost(data);
-            })
-    }, [])
+    // useEffect(() => {
+    //     api.getPostById(postId)
+    //         .then(data => {
+    //             setPost(data);
+    //         })
+    // }, [])
 
-    const handleClickBack = () => navigate(-1);
+    // const handleClickBack = () => navigate(-1);
 
 
-    if (!post) {
-        setTimeout(() => <h1>Post not found</h1>, 2000);    //Bug fix - crutch
-        return null;
-    }
+    // if (!post) {
+    //     setTimeout(() => <h1>Post not found</h1>, 2000);    //Bug fix - crutch
+    //     return null;
+    // }
 
     const [firstLikedUser = null, ...likes] = post.likes;
 
-    // return (
-    //     <div>
-    //         <button onClick={handleClickBack}>Back</button>
-    //         <h1>POST: {post.title}</h1>
-    //         <img style={{maxWidth: 300,}} src={post.imgUrl} alt="post" />
-    //         {!isShowLikes ? (
-    //             <p 
-    //                 onClick={() => setIsShowLikes(true)}
-    //             >
-    //                 {
-    //                     post.likes.length ? (
-    //                         <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
-    //                     ) : (
-    //                         <p>No Likes</p>
-    //                     )
-    //                 }
-    //             </p>
-    //         ) : (
-    //             <ul>
-    //                 <button onClick={() => setIsShowLikes(false)}>Hide</button>
-    //                 {post.likes.map(like => <li key={like.id}><NavLink to={`/users/${like._id}`}>{like.login}</NavLink></li>)}
-    //             </ul>
-    //         )}
-    //     </div>
-    // )
     
 
     const handleLike = () => {
-        setToggleLike(toggleLike == true ? toggleLike == true : toggleLike == false);
+        setToggleLike(!toggleLike)
         api.handleLike(post)
             .then(data => {
                 toast.success('Liked');
@@ -86,9 +61,9 @@ const Post = (feedPost) => {
     }
 
     return (
-        <Container>
-            <Button onClick={handleClickBack} variant="contained" color="primary">Back</Button>
-            <Typography variant="h2" component="h3" sx={{ textAlign: 'center' }}>{post.title}</Typography>
+        <Container maxWidth="md">
+            {/* <Button onClick={handleClickBack} variant="contained" color="primary">Back</Button> */}
+            <Typography variant="h4" component="h4" sx={{ textAlign: 'center' }}>{post.title}</Typography>
             <Box>
                 <img style={{ width: '100%' }} src={post.imgUrl} alt="post" />
             </Box>
@@ -99,7 +74,7 @@ const Post = (feedPost) => {
                     {post.likes.length ? (
                         <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
                     ) : (
-                        <p>No Likes</p>
+                        <span>No Likes</span>
                     )}
                 </Typography>
             ) : (
@@ -118,4 +93,4 @@ const Post = (feedPost) => {
     );
 }
 
-export default Post;
+export default PostForFeed;

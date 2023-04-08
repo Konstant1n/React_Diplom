@@ -75,6 +75,11 @@ class HipsatgramApi {
         const response = await this.api.get('/posts/like/'+post._id);
         return response.data;
     }
+
+    async getFeed() {
+        const response = await this.api.get('/posts/feed');
+        return response.data;
+    }
 }
 // eslint-disable-next-line
 export default new HipsatgramApi();
