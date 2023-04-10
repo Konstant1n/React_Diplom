@@ -6,6 +6,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { styled } from '@mui/material/styles';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { toast } from 'react-toastify';
+import Comments from "../../components/Comments/Comments";
 
 const StyledFavoriteIcon = styled(FavoriteIcon)({
     fontSize: '3rem',
@@ -45,7 +46,7 @@ const PostForFeed = (item) => {
 
     const [firstLikedUser = null, ...likes] = post.likes;
 
-    
+
 
     const handleLike = () => {
         setToggleLike(!toggleLike)
@@ -57,7 +58,7 @@ const PostForFeed = (item) => {
             .catch(err => {
                 toast.error(err.response.data,)
             })
-        
+
     }
 
     return (
@@ -89,6 +90,9 @@ const PostForFeed = (item) => {
                     </List>
                 </div>
             )}
+            {post._id}
+            <Typography variant="h6" component="h6" sx={{ textAlign: 'center' }}>Comments</Typography>
+            <Comments post={post} />
         </Container>
     );
 }

@@ -152,9 +152,9 @@ export default function SignInSide() {
 
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  {/* <Link href="#" variant="body2">
+                  </Link> */}
                     <NavLink to="/registration">Don't have an account? Sign Up</NavLink>
-                  </Link>
                 </Grid>
               </Grid>
               <Copyright sx={{ mt: 5 }} />

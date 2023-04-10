@@ -80,6 +80,18 @@ class HipsatgramApi {
         const response = await this.api.get('/posts/feed');
         return response.data;
     }
+
+    async getComments(post) {
+        const response = await this.api.get('/comments/' + post._id);
+        return response.data;
+    }
+
+    async createComment(data) {
+        const response = await this.api.post('/comments', data);
+        debugger
+        return response.data;
+    }
+    
 }
 // eslint-disable-next-line
 export default new HipsatgramApi();
