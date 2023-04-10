@@ -88,7 +88,21 @@ class HipsatgramApi {
 
     async createComment(data) {
         const response = await this.api.post('/comments', data);
-        debugger
+        return response.data;
+    }
+
+    async deleteComment(id) {
+        const response = await this.api.delete('/comments/' + id);
+        return response.data;
+    }
+    
+    async editComment(id, text) {
+        const response = await this.api.patch('/comments/'+ id, text);
+        return response.data;
+    }
+
+    async getFollowers(user) {
+        const response = await this.api.patch('/users/followersAndFollowing/'+ user._id);
         return response.data;
     }
     

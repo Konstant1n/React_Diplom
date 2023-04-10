@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import api from "../../services/api";
-import PostCard from "../../components/PostCard";
 import { useIndificate } from "../../hooks";
-// import Button from '../../components/Button';
-import Input from "../../components/Input";
 import { Avatar, Container } from "@mui/material";
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-
 import Stack from '@mui/material/Stack';
 import ListItemText from '@mui/material/ListItemText';
 import { styled } from '@mui/material/styles';
@@ -16,7 +12,6 @@ import Paper from '@mui/material/Paper';
 import ListItem from '@mui/material/ListItem';
 import MasonryImageList from "../../components/MasonryImageList/MasonryImageList";
 import Page404 from "../../components/Page404/Page404";
-
 import { TextField } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { toast } from 'react-toastify';
@@ -34,11 +29,11 @@ const Item = styled(Paper)(({ theme }) => ({
 const UploadPost = ({
     handleAddPost
 }) => {
-    const [isOpenForm, setIsOpenForm] = useState(false);
+    const [isOpenFormAddPost, setisOpenFormAddPost] = useState(false);
 
-    const handleOpenForm = () => setIsOpenForm(true);
+    const handleOpenForm = () => setisOpenFormAddPost(true);
 
-    const handleCloseForm = () => setIsOpenForm(false);
+    const handleCloseForm = () => setisOpenFormAddPost(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -60,11 +55,18 @@ const UploadPost = ({
             })
     }
 
-    if (!isOpenForm) {
+    if (!isOpenFormAddPost) {
         return (
-            <Button onClick={handleOpenForm} variant="contained" sx={{ height: '35px', width: '106px', mt: '30px', mb: '30px' }}>Add post</Button>
+            <Box sx={{display: 'flex'}}>
+                <Button onClick={handleOpenForm} variant="contained" sx={{ height: '35px', width: '100%', mt: '30px', mb: '30px' }}>Add post</Button>
+                {/* <Button variant="contained" sx={{ height: '35px', width: '50%', mt: '30px', mb: '30px', whiteSpace : 'nowrap' }}>My followers</Button> */}
+            </Box>
+
         )
     }
+
+
+
 
     return (
         // <form onSubmit={handleSubmit}>
@@ -99,7 +101,7 @@ const UploadPost = ({
                         type="file"
                         variant="outlined"
                         placeholder="Photo..."
-                        sx={{mb: '25px'}}
+                        sx={{ mb: '25px' }}
                     />
 
                     <Button onClick={handleCloseForm} variant="contained" type="button" color="error" >
@@ -177,15 +179,21 @@ const User = (props) => {
                                             sx={{ width: 150, height: 150, mr: '35px' }}
                                         />
                                         <Box sx={{ width: '100%' }} >
-                                            <Box sx={{ display: 'flex', flexDirection: "row", justifyContent: "start", alignItems: 'center' }}>
+                                            <Box sx={{ display: 'flex', flexDirection: "row", justifyContent: "start", alignItems: 'center', 
+                                              '@media (max-width: 470px)': {
+                                                flexDirection: 'column',
+                                                flexWrap: 'wrap',
+                                            },
+                                         }}>
                                                 <ListItem sx={{ display: 'flex', alignItems: 'left' }}>
                                                     <ListItemText primary={user.firstName + ' ' + user.lastName} secondary={user.login} sx={{ display: 'block' }} />
                                                 </ListItem>
 
                                                 <ListItem sx={{ display: 'block', alignItems: 'left' }}>
-                                                    <ListItemText primary={user.posts.length + ' ' + 'posts'} sx={{ display: 'flex', alignItems: 'left' }} />
-                                                    <ListItemText primary={user.followersCount + ' ' + 'followers'} sx={{ display: 'flex', alignItems: 'left' }} />
-                                                    <ListItemText primary={user.followingsCount + ' ' + 'followings'} sx={{ display: 'flex', alignItems: 'left' }} />
+                                                    {/* <ListItemText primary={user.posts.length + ' ' + 'posts'} sx={{ display: 'flex', alignItems: 'left' }} /> */}
+                                                    <ListItemText primary={`${user.posts.length} posts`} sx={{ display: 'flex', alignItems: 'left' }} />
+                                                    <ListItemText primary={`${user.followersCount} followers`} sx={{ display: 'flex', alignItems: 'left' }} />
+                                                    <ListItemText primary={`${user.followingsCount} followings`} sx={{ display: 'flex', alignItems: 'left' }} />
                                                 </ListItem>
                                             </Box>
                                             {/* {user._id} */}

@@ -6,6 +6,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { styled } from '@mui/material/styles';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { toast } from 'react-toastify';
+import Comments from "../../components/Comments/Comments";
+import Page404 from "../../components/Page404/Page404";
 
 const StyledFavoriteIcon = styled(FavoriteIcon)({
     fontSize: '3rem',
@@ -39,41 +41,16 @@ const Post = (feedPost) => {
 
 
     if (!post) {
-        setTimeout(() => <h1>Post not found</h1>, 2000);    //Bug fix - crutch
+        setTimeout(() => <Page404/>, 2000);    //Bug fix - crutch
         return null;
     }
 
     const [firstLikedUser = null, ...likes] = post.likes;
 
-    // return (
-    //     <div>
-    //         <button onClick={handleClickBack}>Back</button>
-    //         <h1>POST: {post.title}</h1>
-    //         <img style={{maxWidth: 300,}} src={post.imgUrl} alt="post" />
-    //         {!isShowLikes ? (
-    //             <p 
-    //                 onClick={() => setIsShowLikes(true)}
-    //             >
-    //                 {
-    //                     post.likes.length ? (
-    //                         <span>Likes: {firstLikedUser && <NavLink to={`/users/${firstLikedUser._id}`}>{firstLikedUser.login}</NavLink>} and {likes.length ? likes.length : 0}</span>
-    //                     ) : (
-    //                         <p>No Likes</p>
-    //                     )
-    //                 }
-    //             </p>
-    //         ) : (
-    //             <ul>
-    //                 <button onClick={() => setIsShowLikes(false)}>Hide</button>
-    //                 {post.likes.map(like => <li key={like.id}><NavLink to={`/users/${like._id}`}>{like.login}</NavLink></li>)}
-    //             </ul>
-    //         )}
-    //     </div>
-    // )
-    
+ 
 
     const handleLike = () => {
-        setToggleLike(toggleLike == true ? toggleLike == true : toggleLike == false);
+        setToggleLike(toggleLike === true ? toggleLike == true : toggleLike === false);
         api.handleLike(post)
             .then(data => {
                 toast.success('Liked');
@@ -114,6 +91,8 @@ const Post = (feedPost) => {
                     </List>
                 </div>
             )}
+            <Typography variant="h6" component="h6" sx={{ textAlign: 'center' }}>Comments</Typography>
+            <Comments post={post} />
         </Container>
     );
 }

@@ -90,7 +90,6 @@ const PostForFeed = (item) => {
                     </List>
                 </div>
             )}
-            {post._id}
             <Typography variant="h6" component="h6" sx={{ textAlign: 'center' }}>Comments</Typography>
             <Comments post={post} />
         </Container>

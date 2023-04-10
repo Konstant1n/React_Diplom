@@ -16,7 +16,6 @@ import Button from '@mui/material/Button';
 const PostInModal = ({ post }) => {
     const navigate = useNavigate();
     const [isShowLikes, setIsShowLikes] = useState(false);
-    console.log(post);
 
 
     if (!post) {

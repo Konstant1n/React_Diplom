@@ -66,6 +66,8 @@ const Comments = (post) => {
                                 owner={comment.owner}
                                 text={comment.text}
                                 id={comment.id}
+                                setComments={setComments}
+                                comments={comments}
                             />
                         ))
                     ) : (
