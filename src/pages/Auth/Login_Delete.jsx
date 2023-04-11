@@ -9,7 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 const Login = () => {
     const dispatch = useDispatch();
-    const { register, handleSubmit, formState  } = useForm();
+    const { register, handleSubmit, formState } = useForm();
 
     const onSubmit = (data) => {
         dispatch(loginThunk(data));
@@ -26,16 +26,39 @@ const Login = () => {
         },
     }
 
+    // const passwordValidation = {
+    //     required: {
+    //         value: true,
+    //         message: 'password field is required!'
+    //     },
+    //     pattern: {
+    //         value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/б,
+    //         // value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
+    //         // message: 'Password consists of Latin letters, numbers and underscores'
+    //         message: 'Password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters'
+    //     },
+    // }
+
     const passwordValidation = {
         required: {
             value: true,
-            message: 'password field is required!'
+            message: 'Password field is required!'
         },
-        pattern: {
-            value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
-            message: 'Password consists of Latin letters, numbers and underscores'
-        },
-    }
+        pattern: [
+            {
+              value: /^(?=.*[a-zA-Z\d])[a-zA-Z\d]{8,16}$/,
+              message: 'Password must have min 8 symbols, max 16 symbols, only digital letters and literal letters'
+            },
+            {
+            //   value: /^.{8,}$/,
+              value: '11111111',
+              message: 'Password must be at least 8 characters long'
+            }
+          ]
+    };
+
+
+
 
     return (
         <Auth>
@@ -47,7 +70,7 @@ const Login = () => {
                     {...register("login", loginValidation)}
                     error={formState.errors.login}
                     helperText={formState.errors.login ? formState.errors.login.message : ''}
-                    
+
                 />
                 <InputPassword
                     label="Password"
@@ -57,6 +80,9 @@ const Login = () => {
                     error={formState.errors.password}
                     helperText={formState.errors.password ? formState.errors.password.message : ''}
                 />
+
+
+
                 <button type='submit'>Login</button>
             </form>
             <NavLink to="/registration">Registration</NavLink>

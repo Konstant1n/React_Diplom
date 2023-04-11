@@ -146,25 +146,13 @@ const User = (props) => {
 
     if (isLoading) return
 
-    // const handleClick = () => {
-    // };
+
 
 
 
     return (
         <>
             <Container maxWidth="md" >
-                {/* <Button
-
-                    onClick={() => {
-                    }}
-                    variant="contained" sx={{ height: '35px', width: '106px' }}>
-                    Back
-                </Button>
-
-                <NavLink to="/users">Users</NavLink> */}
-
-
                 {
                     !user ?
                         // <h1>User  not found</h1>
@@ -196,26 +184,6 @@ const User = (props) => {
                                                     <ListItemText primary={`${user.followingsCount} followings`} sx={{ display: 'flex', alignItems: 'left' }} />
                                                 </ListItem>
                                             </Box>
-                                            {/* {user._id} */}
-                                            {/* 
-                                            {user.isFollow ?
-                                                <Button
-
-                                                onClick={() => {
-                                                    handleClick();
-                                                }}
-                                                    variant="contained" sx={{ height: '50px', width: '100%', mb: '35px' }}>
-                                                    Unfollow
-                                                </Button> :
-                                                <Button
-                                                onClick={() => {
-                                                    handleClick();
-                                                }}
-                                                    variant="outlined" color="error" sx={{ height: '50px', width: '100%' }}>
-                                                    Follow
-                                                </Button>} */}
-
-
                                         </Box>
 
                                     </Item>

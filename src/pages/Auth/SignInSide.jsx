@@ -63,8 +63,8 @@ export default function SignInSide() {
       message: 'password field is required!'
     },
     pattern: {
-      value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
-      message: 'Password consists of Latin letters, numbers and underscores'
+      value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
+      message: 'Password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters'
     },
   }
 

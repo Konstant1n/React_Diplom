@@ -1,72 +1,3 @@
-// import React, { useState } from "react";
-// import Avatar from '@mui/material/Avatar';
-// import Button from '@mui/material/Button';
-// import CssBaseline from '@mui/material/CssBaseline';
-// import TextField from '@mui/material/TextField';
-// import Link from '@mui/material/Link';
-// import Paper from '@mui/material/Paper';
-// import Box from '@mui/material/Box';
-// import Grid from '@mui/material/Grid';
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-// import Typography from '@mui/material/Typography';
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// import { NavLink } from 'react-router-dom';
-// import { useDispatch } from 'react-redux';
-
-// import IconButton from '@mui/material/IconButton';
-// import InputAdornment from '@mui/material/InputAdornment';
-// import Visibility from '@mui/icons-material/Visibility';
-// import VisibilityOff from '@mui/icons-material/VisibilityOff';
-// import api from "../../services/api";
-// import { useForm } from "react-hook-form";
-
-// function Copyright(props) {
-//     return (
-//         <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//             {'Copyright © '}
-//             <Link color="inherit" href="https://mui.com/">
-//                 Hipstagram
-//             </Link>{' '}
-//             {new Date().getFullYear()}
-//             {'.'}
-//         </Typography>
-//     );
-// }
-
-
-// const theme = createTheme();
-
-// const emailValidation = {
-//     required: {
-//         value: true,
-//         message: 'Email field is required!'
-//     },
-//     pattern: {
-//         value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(("[^"]+")))+@(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,})$/,
-//         message: 'Incorrect email address'
-//     },
-// }
-
-
-// export default function Registration() {
-//     const dispatch = useDispatch();
-//     const { register, handleSubmit, formState } = useForm();
-
-//     // const onSubmit = (data) => {
-//     //     dispatch(loginThunk(data))
-//     // };
-
-//     const handleRegister = async (e) => {
-//         e.preventDefault();
-//         try {
-//           await api.registration(data);
-//           navigate('/login');
-//         } catch (err) {
-//           setApiError(err.response.data);
-//         }
-//       }
-
 import React, { useState } from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -151,13 +82,14 @@ export default function Registration() {
             message: 'password field is required!'
         },
         pattern: {
-            value: /^[a-zA-Z0-9_]+$/i, //login consists of Latin letters, numbers and underscores
-            message: 'Password consists of Latin letters, numbers and underscores'
+            value: /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,16}$/,
+            message: 'Password" must has min 8 symbols, max 16 symbols, only digital letters and literal letters'
         },
     }
 
     const [showPassword, setShowPassword] = useState(false);
     const [apiError, setApiError] = useState(null);
+
 
     return (
         <ThemeProvider theme={theme}>
